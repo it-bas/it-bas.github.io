@@ -1,0 +1,10 @@
+{% macro produktCard(name, link, image) %}
+
+        <div class="produkt">
+            <a href="{{ link }}">
+                <img src="{{ image }}" alt="{{ name }}">
+                <h2 class="title">{{ name }}</h2>
+            </a>
+        </div>
+
+{% endmacro %}

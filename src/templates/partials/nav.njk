@@ -1,0 +1,17 @@
+<nav class="menu" role="navigation">
+    <div id="menuToggle">
+
+        <input type="checkbox"/>
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+            {% for item in navigation %}
+                <a href="{{item.url}}">
+                    <li>{{item.name}}</li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

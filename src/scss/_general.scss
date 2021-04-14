@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: $background;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    @media screen and (min-width: $width-tablet) {
+        padding: 0 40px;
+    }
+
+    @media screen and (min-width: $width-desktop) {
+        padding: 0 60px;
+    }
+}

@@ -1,0 +1,21 @@
+{% extends "basic-layout.njk" %}
+
+{% block content %}
+  <h1>IT des Bundesamtes für Soziale Sicherung</h1>
+  <p>Hier finden Sie Informatione zu unseren Produkten (Anleitungen, How To's, usw.), Code Beispiele und Neuigkeiten.</p>
+
+  <section class="cards">
+
+    {% for item in navigation %}
+      <div class="card">
+        <img src="{{item.img}}" alt="{{item.name}}">
+        <a href="{{item.url}}">
+          <h2 class="title">{{item.name}}</h2>
+          <p class="body-text">{{item.description}}</p>
+        </a>
+      </div>
+    {% endfor %}
+
+  </section>
+
+{% endblock %}

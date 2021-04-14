@@ -1,0 +1,42 @@
+html,
+body {
+  font-size: 16px;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+  color: $font-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+  padding: 10px 0 20px;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+a,
+a:visited {
+  color: $link-color;
+}
+
+a:hover,
+a:focus,
+a:active {
+  color: $link-color-hover;
+}

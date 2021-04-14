@@ -1,0 +1,19 @@
+header {
+  .container {
+    display: flex;
+    justify-content: space-between;
+
+    .logo {
+      margin-top: 25px;
+      width: 140px;
+
+      @media screen and (min-width: $width-tablet) {
+        width: 180px;
+      }
+
+      @media screen and (min-width: $width-desktop) {
+        width: 220px;
+      }
+    }
+  }
+}

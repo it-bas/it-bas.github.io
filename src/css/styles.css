@@ -1,0 +1,329 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html,
+body {
+  font-size: 16px;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+  color: #444; }
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+  padding: 10px 0 20px; }
+
+h1 {
+  font-size: 2rem; }
+
+h2 {
+  font-size: 1.75rem; }
+
+h3 {
+  font-size: 1.5rem; }
+
+h4 {
+  font-size: 1.25rem; }
+
+a,
+a:visited {
+  color: #444; }
+
+a:hover,
+a:focus,
+a:active {
+  color: #000; }
+
+* {
+  box-sizing: border-box; }
+
+body {
+  background: #fff; }
+
+img {
+  max-width: 100%; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px; }
+  @media screen and (min-width: 480px) {
+    .container {
+      padding: 0 40px; } }
+  @media screen and (min-width: 920px) {
+    .container {
+      padding: 0 60px; } }
+
+header .container {
+  display: flex;
+  justify-content: space-between; }
+  header .container .logo {
+    margin-top: 25px;
+    width: 140px; }
+    @media screen and (min-width: 480px) {
+      header .container .logo {
+        width: 180px; } }
+    @media screen and (min-width: 920px) {
+      header .container .logo {
+        width: 220px; } }
+
+nav {
+  position: fixed;
+  top: 25px;
+  right: 10px;
+  z-index: 10; }
+  @media screen and (min-width: 480px) {
+    nav {
+      right: 50px; } }
+
+#menuToggle {
+  display: block;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none; }
+
+#menuToggle a {
+  text-decoration: none;
+  color: #000;
+  transition: color 0.3s ease; }
+
+#menuToggle a:hover {
+  color: #6d6d6d; }
+
+#menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+  cursor: pointer;
+  opacity: 0;
+  /* hide this */
+  z-index: 2;
+  /* and place it over the hamburger */
+  -webkit-touch-callout: none; }
+
+/*
+ * Just a quick hamburger
+ */
+#menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background: #000;
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease; }
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%; }
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%; }
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323; }
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2); }
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px); }
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu {
+  position: absolute;
+  width: 300px;
+  max-width: 70vw;
+  height: 100vh;
+  margin: -53px 0 0;
+  right: -50px;
+  padding: 50px;
+  padding-top: 125px;
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+  transform-origin: 0% 0%;
+  transform: translate(100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1); }
+
+#menu li {
+  padding: 10px 0;
+  font-size: 22px; }
+
+/*
+ * And let's slide it in from the left
+ */
+#menuToggle input:checked ~ ul {
+  transform: none; }
+
+main, section {
+  margin: 50px 0; }
+
+footer {
+  padding: 50px 0;
+  color: #bbbbbb;
+  background: black; }
+  footer a,
+  footer a:visited {
+    color: #bbbbbb; }
+  footer a:hover,
+  footer a:focus,
+  footer a:active {
+    color: white; }
+
+.cards {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap; }
+  @media screen and (min-width: 920px) {
+    .cards {
+      flex-wrap: nowrap; } }
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  position: relative;
+  transition: transform 0.2s; }
+  @media screen and (min-width: 920px) {
+    .card {
+      flex: 1; } }
+  .card h2 {
+    font-size: 1.9rem; }
+  .card p {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all 0.3s ease-in-out; }
+  .card:hover {
+    transform: scale(1.05); }
+    .card:hover p {
+      opacity: 1;
+      transform: translateY(0); }
+  .card > img {
+    display: block; }
+  .card > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.5s ease, transform 0.5s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+    z-index: 3; }
+
+.blog {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  flex-wrap: wrap; }
+  .blog article {
+    background: #eee;
+    position: relative;
+    padding: 50px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    flex: 1 1 280px; }
+    .blog article h2,
+    .blog article h3,
+    .blog article p {
+      position: relative;
+      z-index: 3; }
+    .blog article:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.5s; }
+    .blog article:hover:before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+      transition: transform 0.5s; }
+
+.produkte {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+  @media screen and (min-width: 480px) {
+    .produkte .produkt {
+      flex: 0 1 calc(50% - 15px); } }
+  @media screen and (min-width: 920px) {
+    .produkte .produkt {
+      flex: 0 1 calc(33% - 20px); } }
+  .produkte .produkt a {
+    text-decoration: none; }
+  .produkte .produkt h2 {
+    font-size: 1rem;
+    text-align: center;
+    word-break: break-all; }

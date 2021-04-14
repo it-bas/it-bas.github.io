@@ -1,0 +1,16 @@
+footer {
+  padding: 50px 0;
+  color: invert($font-color);
+  background: invert($background);
+
+  a,
+  a:visited {
+    color: invert($link-color);
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: invert($link-color-hover);
+  }
+}

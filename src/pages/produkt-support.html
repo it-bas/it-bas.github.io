@@ -1,0 +1,20 @@
+{% extends "basic-layout.njk" %}
+{% from "../templates/macros/produkt-card.njk" import produktCard %}
+
+{% block content %}
+
+    <h1>Produkt-Support</h1>
+    <p>In diesem Bereich finden Sie Informatione zu von uns bereitgestellten Software-Produkten bzw. Online-Angeboten.</p>
+
+    <section class="produkte">
+
+        {{ produktCard("MorbiRSA", "#", "https://via.placeholder.com/500") }}
+        {{ produktCard("Vertrangstransparenzstelle", "#", "https://via.placeholder.com/500") }}
+        {{ produktCard("Krankenhauszukunftsfonds", "#", "https://via.placeholder.com/500") }}
+        {{ produktCard("Disease-Management-Programm (DMP)", "#", "https://via.placeholder.com/500") }}
+        {{ produktCard("Mutterschaftsgeldstelle", "#", "https://via.placeholder.com/500") }}
+        {{ produktCard("Prüftool §252", "#", "https://via.placeholder.com/500") }}
+
+    </section>
+
+{% endblock %}

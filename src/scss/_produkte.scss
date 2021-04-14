@@ -1,0 +1,24 @@
+.produkte {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .produkt {
+    @media screen and (min-width: $width-tablet) {
+        flex: 0 1 calc(50% - 15px);
+    }
+    @media screen and (min-width: $width-desktop) {
+        flex: 0 1 calc(33% - 20px);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    h2 {
+      font-size: 1rem;
+      text-align: center;
+      word-break: break-all;
+    }
+  }
+}
