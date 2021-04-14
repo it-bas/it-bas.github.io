@@ -1,8 +1,8 @@
 {
     "page_author": "Tim Döring",
     "navigation": [
-        { "name": "Blog", "url": "/blog.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"},
-        { "name": "Knowledge Base", "url": "/knowledge-base.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"},
-        { "name": "Produkt Support", "url": "/produkt-support.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"}
+        { "name": "Blog", "url": "/dist/blog.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"},
+        { "name": "Knowledge Base", "url": "/dist/knowledge-base.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"},
+        { "name": "Produkt Support", "url": "/dist/produkt-support.html", "img": "https://via.placeholder.com/500", "description": "Hier finden Sie aktuelle Informationen"}
     ]
 }

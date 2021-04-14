@@ -55,7 +55,7 @@ function browserSyncServe(cb) {
     console.log("BrowserSync is starting... This might take some seconds...");
   browserSync.init({
     server: {
-      baseDir: "dist",
+      baseDir: "/",
     },
   });
   cb();
