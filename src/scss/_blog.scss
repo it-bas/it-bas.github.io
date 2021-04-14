@@ -1,15 +1,20 @@
 .blog {
   display: flex;
-  justify-content: space-between;
-  gap: 50px;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   article {
-    background: #eee;
+    background: #FFF;
     position: relative;
     padding: 50px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    flex: 1 1 280px;
+
+    @media screen and (min-width: $width-tablet) {
+        flex: 0 1 calc(50% - 15px);
+    }
+    @media screen and (min-width: $width-desktop) {
+        flex: 0 1 calc(33% - 20px);
+    }
 
     h2,
     h3,
@@ -29,7 +34,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #fff;
+      background: #f1f1f1;
       transform: scaleY(0);
       transform-origin: top;
       transition: transform 0.5s;
@@ -46,23 +51,24 @@
 }
 
 article.artikel {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
 
-    .datum {
-        color: rgb(160, 160, 160);
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
+  .datum {
+    color: rgb(160, 160, 160);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
 
-    img, figure {
-        margin: 20px 0;
-    }
+  img,
+  figure {
+    margin: 20px 0;
+  }
 
-    figcaption {
-        text-align:center; 
-        color: #777;
-        margin-top:-15px;
-        padding-bottom: 20px;
-    }
+  figcaption {
+    text-align: center;
+    color: #777;
+    margin-top: -15px;
+    padding-bottom: 20px;
+  }
 }
