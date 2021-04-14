@@ -51,20 +51,27 @@ h2,
 h3,
 h4,
 h5 {
-  font-weight: bold;
-  padding: 10px 0 20px; }
+  font-weight: bold; }
 
 h1 {
-  font-size: 2rem; }
+  font-size: 2rem;
+  padding: 15px 0; }
 
 h2 {
-  font-size: 1.75rem; }
+  font-size: 1.75rem;
+  padding: 30px 0 15px; }
 
 h3 {
-  font-size: 1.5rem; }
+  font-size: 1.5rem;
+  padding: 20px 0 5px; }
 
 h4 {
-  font-size: 1.25rem; }
+  font-size: 1.25rem;
+  padding: 15px 0 5px; }
+
+h5 {
+  font-size: 1.1rem;
+  padding: 10px 0 5px; }
 
 a,
 a:visited {
@@ -295,6 +302,8 @@ footer {
     .blog article p {
       position: relative;
       z-index: 3; }
+    .blog article .weiterlesen {
+      margin-top: 20px; }
     .blog article:before {
       content: "";
       position: absolute;
@@ -310,6 +319,21 @@ footer {
       transform: scaleY(1);
       transform-origin: bottom;
       transition: transform 0.5s; }
+
+article.artikel {
+  max-width: 600px;
+  margin: 0 auto; }
+  article.artikel .datum {
+    color: #a0a0a0;
+    font-weight: bold;
+    font-size: 1.5rem; }
+  article.artikel img, article.artikel figure {
+    margin: 20px 0; }
+  article.artikel figcaption {
+    text-align: center;
+    color: #777;
+    margin-top: -15px;
+    padding-bottom: 20px; }
 
 .produkte {
   display: flex;

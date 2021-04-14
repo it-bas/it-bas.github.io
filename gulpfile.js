@@ -40,7 +40,7 @@ function cssTask() {
 
 // compile html into templates and into dist
 function njhtml() {
-  return src("src/pages/*.html")
+  return src("src/pages/**/*.html")
     .pipe(
       data(function () {
         return require("./src/page_data.json");
@@ -55,7 +55,7 @@ function browserSyncServe(cb) {
     console.log("BrowserSync is starting... This might take some seconds...");
   browserSync.init({
     server: {
-      baseDir: "/",
+      baseDir: "./",
     },
   });
   cb();
@@ -69,7 +69,7 @@ function browserSyncReload(cb) {
 // watchtask, run tasks on change while in live server and reload
 function watchTask() {
   watch("src/scss/**/*.scss", series(sassTask, cssTask, browserSyncReload));
-  watch("src/pages/*.html", series(njhtml, browserSyncReload));
+  watch("src/pages/**/*.html", series(njhtml, browserSyncReload));
   watch("src/templates/**/*.njk", series(njhtml, browserSyncReload));
 }
 

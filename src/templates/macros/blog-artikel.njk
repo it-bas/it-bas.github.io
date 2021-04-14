@@ -1,0 +1,10 @@
+{% macro blogArtikel(datum, link, blog_title, text) %}
+
+    <article>
+        <p class="date">{{ datum }}</p>
+        <h2><a href="{{ link }}">{{ blog_title }}</a></h2>
+        <p class="text">{{ text }}...</p>
+        <p class="weiterlesen"><a href="{{ link }}">Weiterlesen</a></p>
+    </article>
+
+{% endmacro %}

@@ -18,6 +18,10 @@
       z-index: 3;
     }
 
+    .weiterlesen {
+      margin-top: 20px;
+    }
+
     &:before {
       content: "";
       position: absolute;
@@ -39,4 +43,26 @@
       }
     }
   }
+}
+
+article.artikel {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .datum {
+        color: rgb(160, 160, 160);
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    img, figure {
+        margin: 20px 0;
+    }
+
+    figcaption {
+        text-align:center; 
+        color: #777;
+        margin-top:-15px;
+        padding-bottom: 20px;
+    }
 }

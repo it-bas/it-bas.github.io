@@ -1,0 +1,78 @@
+{% extends "basic-layout.njk" %}
+
+{% block content %}
+    <article class="artikel">
+        <p class="datum">11.03.2021</p>
+        <h1>IT-Grundschutz Baustein für Keycloak</h1>
+
+        <img src="/dist/img/blog/it-grundschutz-baustein-fuer-keycloak.png"/>
+
+        <h2>BSI IT-Grundschutz Baustein Entwurf Vorschlag</h2>
+        <p>Wir im Bundesamt für Soziale Sicherung, wo ich die Softwareentwicklung leite, verwenden bereits seit ca. 5 Jahren Keycloak sowohl intern als SSO Lösung für viele Anwendungen mit Anbindung an einen Verzeichnisdienst, als auch im Internet für diverse Online-Angebote unserer Behörde. Zuletzt unter anderem auch für die Anbindung des Nutzerkontos Bund im Rahmen des Onlinezugangsgesetzes (OZG).</p>
+        <p>Am 10.03.2021 habe ich unsere internen Überlegungen und Dokumentationen zu Keycloak im Bezug auf Fachsicherheitskonzepte aufbereitet und als IT Grundschutz Baustein Entwurf an das BSI geschickt. Den Inhalt stelle ich gerne hier zur Verfügung und zur Diskussion und erhoffe mir konstruktives Feedback!</p>
+        <p>Aktualisierung 14.04.21: neue Version des Entwurfs</p>
+
+        <h2>“Identity- und Access-Management mit Keycloak”</h2>
+        <h3>Beschreibung</h3>
+        <h4>Einleitung</h4>
+        <p>Keycloak ist eine Open-Source-Lösung für Identity und Access Management, die auf die Absicherung moderner Anwendungen und Services ausgerichtet ist. Sicherheitsfunktionen, die Entwickler normalerweise selbst entwickeln müssen, werden bereitgestellt und können an die individuellen Anforderungen der Institution angepasst werden. Keycloak bietet anpassbare Benutzeroberflächen für die Anmeldung, Registrierung, Administration und Kontoverwaltung. Darüber hinaus sind Social Logins möglich und ein Identity Brokering über Standardprotokolle wie OpenID Connect und SAML 2.0. Keycloak kann als zusätzliches System betrieben werden, das sich die Identitäten und gegebenenfalls Berechtigungen aus einem zentralen Verzeichnisdienst besorgt oder als eigenständiges System, das für das gesamte Identitäts- und Berechtigungsmanagement zuständig ist. Die erste Betriebsform ist häufig in internen Netzen von Institutionen anzutreffen, während ein eigenständiges System häufig als Authentifizierungsdienst für Online-Angebote Verwendung findet.</p>
+        <h4>Zielsetzung</h4>
+        <p>Ziel des Bausteins ist der Schutz einer Keycloak Instanz und der Informationen, die durch Keycloak bereitgestellt oder im weitesten Sinne damit verarbeitet werden.</p>
+        <h4>Abgrenzung</h4>
+        <p>In diesem Baustein werden die für einen Keycloak Authentifizierungsdienst spezifischen Gefährdungen und Anforderungen betrachtet. Der Betrieb erfordert entweder einen Server oder Container, deren allgemeine Sicherheitsempfehlungen zusätzlich beachtet werden müssen (siehe z.B. SYS.1.3 Server unter Linux und Unix, SYS.1.2.2 Windows Server 2012 bzw. SYS.1.6 Container). Des Weiteren ist die Betrachtung sämtlicher Maßnahmen aus ORP.4: Identitäts- und Berechtigungsmanagement notwendig. Bei einem Einsatz von Keycloak als eigenständiges System sind darüber hinaus Maßnahmen aus APP.2.1: Allgemeiner Verzeichnisdienst zu beachten.</p>
+
+        <h3>Gefährdungslage</h3>
+        <h4>Unzureichende Absicherung administrativer Zugänge</h4>
+        <p>Werden die Zugriffe auf Admin-Oberflächen oder Schnittstellen nicht ausreichend eingeschränkt und gesichert, können Angreifer Zugriff auf Informationen und Daten erhalten.</p>
+        <h4>Ausnutzung erweiterter Rechte</h4>
+        <p>Werden in Client- und Realm-Konfigurationen nicht die Rechte und Inhalte auf das Notwendigste eingeschränkt, z.B. bei den Inhalten von Access-Tokens, kann ein Angreifer erweiterten Zugriff auf Informationen und Daten erhalten.</p>
+        <h4>Fehlendes oder nicht zeitnahes Einspielen von Patches</h4>
+        <p>Es werden regelmäßig Sicherheitsempfehlungen durch den Hersteller veröffentlicht. Bekannt gewordene Schwachstellen werden geschlossen („Patches“). Wenn die Sicherheitsempfehlungen und Patches ignoriert oder erst sehr spät umgesetzt werden, besteht die Gefahr, dass Angreifer Sicherheitslücken ausnutzen. Es besteht gegebenenfalls die Gefahr des Datenabflusses, Ausfalles von Funktionen und schließlich der Störung von wichtigen Prozessen.</p>
+
+        <h3>Anforderungen</h3>
+        <h4>Basis-Anforderungen</h4>
+        <h5>APP.bd.6.1.A1.1 Spezifische Datensicherung und Löschung</h5>
+        <p>Es MUSS abgestimmt werden, in welcher Weise die Datensicherung von Konfigurationen innerhalb von Keycloak durchgeführt wird. Des Weiteren MUSS bei Verwendung einer Datenbank geregelt werden, zu welchem Zeitpunkt die Userdatenbank gesichert und wieder gelöscht wird auf Grund von Datenschutzanforderungen und dem Need-to-know Prinzip.</p>
+        <h5>APP.bd.6.1.A1.2 Einspielen von Patches und Updates</h5>
+        <p>Die Verantwortlichen MÜSSEN sich über bekannt gewordene Schwachstellen informieren. Updates und Patches MÜSSEN so schnell wie möglich eingespielt werden (OPS.1.1.3 Patch- und Änderungsmanagement). Vorab SOLLTE auf einem Testsystem überprüft werden, ob die Sicherheitsupdates kompatibel sind und keine Fehler verursachen.</p>
+
+        <h4>Standard-Anforderungen</h4>
+        <h5>APP.bd.6.1.A2.1 Admin Endpoints und Konsole</h5>
+        <p>Der Zugriff auf die Endpunkte der Administratorkonsole SOLLTEN nicht im Internet verfügbar gemacht werden. Dabei SOLLTE der Zugriff auf /auth/admin eingeschränkt werden, indem der Zugriff auf bestimmte IP-Adressen beschränkt wird oder separate Ports verwendet werden.</p>
+        <h5>APP.bd.6.1.A2.2 Verhinderung von Brute Force Attacken</h5>
+        <p>Die Erkennung von Brute Force Attacken SOLLTE aktiviert sein, um einen Account temporär oder dauerhaft zu sperren, sobald eine bestimmte Anzahl an fehlgeschlagener Login-Versuche überschritten wurde.</p>
+        <h5>APP.bd.6.1.A2.3 Starke Passwort Regeln</h5>
+        <p>Es SOLLTEN ausreichend komplexe Passwort-Regeln konfiguriert werden.</p>
+        <h5>APP.bd.6.1.A2.4 Verhinderung von Clickjacking</h5>
+        <p>In der Konfiguration des Realms SOLLTEN die Header X-FRAME-OPTIONS und Content-Securtiy-Policy definiert sein.</p>
+        <h5>APP.bd.6.1.A2.5 Verwendung von TLS</h5>
+        <p>Die Kommunikation zwischen Anwendungen (Clients) und dem Authentifizierungsdienst SOLLTE verschlüsselt erfolgen.</p>
+        <h5>APP.bd.6.1.A2.6 Spezifische Redirect URIs</h5>
+        <p>Jede konfigurierte Weiterleitungs-URI SOLLTE so spezifisch wie möglich sein, um die Imitation eines anderen Clients mit erweiterten Rechten zu verhindern.</p>
+        <h5>APP.bd.6.1.A2.7 Kompromittierte Zugriffs- und Aktualisierungstoken verhindern</h5>
+        <p>Access- und Refresh-Token SOLLTEN in ihrer Lebensdauer begrenzt werden. Des Weiteren SOLLTEN Authorization Codes (für OIDC Auth Code Flow) in ihrer Lebensdauer sehr begrenzt sein, z.B. wenige Sekunden.</p>
+        <h5>APP.bd.6.1.A2.8 Rollen Umfang beschränken</h5>
+        <p>Ein Access Token SOLLTE immer nur die Rollen enthalten, die zu dem anfragenden Client gehören, so dass bei einer Kompromittierung nicht weitere Systeme betroffen sind.</p>
+        <h5>APP.bd.6.1.A2.9 Überwachung der Komponenten</h5>
+        <p>Die Komponenten SOLLTEN geeignet überwacht werden. Dazu zählt die Einbindung in zentrale Monitoring- und Log-Management-Dienste. Es SOLLTE dabei vor allem die Verfügbarkeit, die Ressourcenauslastung und Fehlerzustände überwacht und erkannt werden.</p>
+        <h5>APP.bd.6.1.A2.10 Aktivierung Audit-Logging</h5>
+        <p>Es SOLLTE das Audit-Logging aktiviert sein, um mögliche Angriffe erkennen zu können, weil z.B. verschiedene Login-Versuche von der gleichen IP aus stattgefunden haben.</p>
+
+        <h4>Anforderungen bei erhöhtem Schutzbedarf</h4>
+        <h5>APP.bd.6.1.A3.1 Hochverfügbarkeit</h5>
+        <p>Da es sich um eine zentrale Komponenten handelt, SOLLTE der Betrieb hochverfügbar ausgelegt werden. Bei Virtualisierung SOLLTE darauf geachtet werden, dass die virtuellen Maschinen auf unterschiedlichen Hosts betrieben werden. Bei Verwendung von Container-Technologien SOLLTEN geeignete restart-on-failure Mechanismen konfiguriert sein.</p>
+        <h5>APP.bd.6.1.A3.2 Read-Only User Attribute</h5>
+        <p>Werden erweiterte User Attribute persistiert, SOLLTEN diese für Administratoren und / oder User nur als read-only Attribute verfügbar sein, um eine Manipulation der Daten zu verhindern.</p>
+        <h5>APP.bd.6.1.A3.3 Token Audience beschränken</h5>
+        <p>In Umgebungen mit geringem Vertrauensniveau SOLLTE das Publikum eines Tokens eingeschränkt werden, um einen Missbrauch von delegierten Rechten zu verhindern.</p>
+
+        <figure>
+            <img src="/dist/img/blog/kreuzreferenztabelle_zu_elementaren_gefaehrdungen.png" alt="Trulli" style="width:100%">
+            <figcaption>Kreuzreferenztabelle zu elementaren Gefährdungen</figcaption>
+        </figure>
+
+        <p>Den Baustein habe ich APP.bd.6.1 IAM Dienst Keycloak genannt und ihn in die Kategorie APP.6 Allgemeine Software einsortiert.</p>
+
+        <p>Bild von <a href="https://pixabay.com/de/users/tbit-715211/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1203603" target="_blank">Thomas Breher</a> auf Pixabay</p>
+    </article>
+{% endblock %}
