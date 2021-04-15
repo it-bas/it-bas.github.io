@@ -273,8 +273,12 @@ footer {
     .card:hover p {
       opacity: 1;
       transform: translateY(0); }
+    .card:hover > img {
+      display: block;
+      opacity: 0.8; }
   .card > img {
-    display: block; }
+    display: block;
+    opacity: 0.3; }
   .card > a {
     display: flex;
     flex-direction: column;
@@ -288,7 +292,8 @@ footer {
     height: 100%;
     text-align: center;
     text-decoration: none;
-    z-index: 3; }
+    z-index: 3;
+    text-shadow: 1px 1px 2px white; }
 
 .blog {
   display: flex;
@@ -359,4 +364,5 @@ article.artikel {
   .produkte .produkt h2 {
     font-size: 1rem;
     text-align: center;
-    word-break: break-all; }
+    word-break: break-word;
+    padding: 5px 0 25px; }
