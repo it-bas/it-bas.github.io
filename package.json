@@ -28,6 +28,7 @@
     "yargs-parser": ">=5.0.0-security.0"
   },
   "dependencies": {
+    "gulp-cli": "^2.3.0",
     "gulp-uglifycss": "^1.1.0"
   }
 }
