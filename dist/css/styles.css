@@ -6,7 +6,7 @@ h1,h2,h3,h4,h5{font-weight:bold}h1{font-size:2rem;padding:15px 0}h2{font-size:1.
 h3{font-size:1.5rem;padding:20px 0 5px}h4{font-size:1.25rem;padding:15px 0 5px}h5{font-size:1.1rem;padding:10px 0 5px}
 p{margin-bottom:10px}a,a:visited{color:#444}a:hover,a:focus,a:active{color:#000}*{box-sizing:border-box}
 body{background:#fff}img{max-width:100%}ul{list-style-type:disc;margin-left:40px;padding-left:0}
-ul>ul{list-style-type:circle}.container{max-width:1280px;margin:0 auto;padding:0 20px}
+ul ul{list-style-type:circle}.container{max-width:1280px;margin:0 auto;padding:0 20px}
 @media screen and (min-width:480px){.container{padding:0 40px}}@media screen and (min-width:920px){.container{padding:0 60px}
 }header .container{display:flex;justify-content:space-between}header .container .logo{margin-top:25px;width:140px}
 @media screen and (min-width:480px){header .container .logo{width:180px}}@media screen and (min-width:920px){header .container .logo{width:220px}
