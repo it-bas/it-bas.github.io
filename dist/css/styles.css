@@ -5,7 +5,8 @@ table{border-collapse:collapse;border-spacing:0}html,body{font-size:16px;font-fa
 h1,h2,h3,h4,h5{font-weight:bold}h1{font-size:2rem;padding:15px 0}h2{font-size:1.75rem;padding:30px 0 15px}
 h3{font-size:1.5rem;padding:20px 0 5px}h4{font-size:1.25rem;padding:15px 0 5px}h5{font-size:1.1rem;padding:10px 0 5px}
 p{margin-bottom:10px}a,a:visited{color:#444}a:hover,a:focus,a:active{color:#000}*{box-sizing:border-box}
-body{background:#fff}img{max-width:100%}.container{max-width:1280px;margin:0 auto;padding:0 20px}
+body{background:#fff}img{max-width:100%}ul{list-style-type:disc;margin-left:40px;padding-left:0}
+ul ul{list-style-type:circle}.container{max-width:1280px;margin:0 auto;padding:0 20px}
 @media screen and (min-width:480px){.container{padding:0 40px}}@media screen and (min-width:920px){.container{padding:0 60px}
 }header .container{display:flex;justify-content:space-between}header .container .logo{margin-top:25px;width:140px}
 @media screen and (min-width:480px){header .container .logo{width:180px}}@media screen and (min-width:920px){header .container .logo{width:220px}
@@ -25,7 +26,7 @@ footer a:hover,footer a:focus,footer a:active{color:white}.cards{display:flex;ga
 @media screen and (min-width:920px){.cards{flex-wrap:nowrap}}.card{background:#fff;border-radius:8px;box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23);position:relative;transition:transform .2s}
 @media screen and (min-width:920px){.card{flex:1}}.card h2{font-size:1.9rem}.card p{opacity:0;transform:translateY(-100%);transition:all .3s ease-in-out}
 .card:hover{transform:scale(1.05)}.card:hover p{opacity:1;transform:translateY(0)}
-.card:hover>img{display:block;opacity:.8}.card>img{display:block;opacity:.3;transition:opacity .2s ease-in-out}
+.card:hover>img{display:block;opacity:.5}.card>img{display:block;opacity:.2;transition:opacity .2s ease-in-out}
 .card>a{display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background-color .5s ease,transform .5s ease;position:absolute;top:0;left:0;width:100%;height:100%;text-align:center;text-decoration:none;z-index:3;text-shadow:1px 1px 2px white}
 .blog{display:flex;flex-wrap:wrap;justify-content:space-between}.blog article{background:#FFF;position:relative;padding:50px;box-shadow:0 10px 20px rgba(0,0,0,0.19),0 6px 6px rgba(0,0,0,0.23)}
 @media screen and (min-width:480px){.blog article{flex:0 1 calc(50% - 15px)}

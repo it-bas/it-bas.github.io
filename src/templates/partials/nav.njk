@@ -1,4 +1,4 @@
-<nav class="menu" role="navigation">
+<nav class="menu">
     <div id="menuToggle">
 
         <input type="checkbox"/>
@@ -8,9 +8,9 @@
         <span></span>
         <ul id="menu">
             {% for item in navigation %}
-                <a href="{{item.url}}">
-                    <li>{{item.name}}</li>
-                </a>
+                <li>
+                    <a href="{{item.url}}">{{item.name}}</a>
+                </li>
             {% endfor %}
         </ul>
     </div>
