@@ -1,0 +1,100 @@
+{% extends "basic-layout.njk" %}
+
+{% block content %}
+    <article class="artikel">
+        <p class="datum">20.05.2021</p>
+        <h1>IT-Grundschutz Baustein für Consul</h1>
+
+        <img src="/dist/img/blog/cybersecurity.png"/>
+
+        <h2>BSI IT-Grundschutz Baustein Entwurf </h2>
+        <p>Wir im Bundesamt für Soziale Sicherung haben in den vergangenen 3,5 Jahren unsere gesamte Anwendungslandschaft von klassischen VMs und 
+            Application Servern mit mehreren Applikationen hin zu einer dynamischen verteilten Infrastruktur auf Basis von Container-Technologien entwickelt.</p>
+        <p>Einer der ersten Bausteine dieser inzwischen vollständigen Cloud-Infrastruktur war Hashicorp Consul, welches zu Beginn zunächst als Service-Discovery
+            zum Einsatz kam, gefolgt von Service-Configuration und zuletzt Service-Mesh Funktionalitäten. Für dieses Werkzeug ist dieser Baustein Entwurf,
+        der gerne kommentiert werden kann. Eure Anregungen schickt ihr bitte an devSupport@bas.bund.de! </p>
+
+        <h2>“Service-Discovery, Service-Configuration und Service-Mesh mit Hashicorp Consul”</h2>
+        <h3>Beschreibung</h3>
+        <h4>Einleitung</h4>
+        <p>In statischen Infrastrukturen werden Servern und Diensten feste IP Adressen zugewiesen. Per DNS ist der Server anhand seiner IP oder eines Domänennamens auffindbar. In dynamischen Infrastrukturen, in denen Dienste in Containern auf beliebigen Hosts ggf. mit automatisch zugewiesenen Ports (neu-)starten können nach einem Ausfall oder auf Grund von Skalierungsanforderungen, wird für das Auffinden eine sogenannte Service-Discovery eingesetzt.
+
+            Dabei melden sich Anwendungen und Dienste beim Start an einer zentralen Registry an. Die Kommunikation übernimmt dabei ein Client Agent, der auf jedem an der Kommunikation beteiligten Server installiert sein muss.
+            
+            Ein Dienst, der einen anderen Dienst auffinden möchte, fragt seinen lokalen Client Agent nach dieser bestimmten Identität. Der Client Agent kommuniziert nun mit der zentralen Registry, um die entsprechende (auch aktuell ansprechbare) Adresse zu erfahren.
+            
+            Im Anschluss kann der Client-Agent des Anfragenden direkt mit dem Client-Agent des Zielsystems kommunizieren.</p>
+        <h4>Zielsetzung</h4>
+        <p>Ziel des Bausteins ist der Schutz einer Consul Instanz und der Informationen, die durch Consul bereitgestellt oder im weitesten Sinne damit verarbeitet werden.            </p>
+        <h4>Abgrenzung</h4>
+        <p>In diesem Baustein werden die für eine Service-Discovery spezifischen Gefährdungen und Anforderungen betrachtet. Der Betrieb erfordert entweder einen Server oder Container, deren allgemeine Sicherheitsempfehlungen zusätzlich beachtet werden müssen (siehe z.B. SYS.1.3 Server unter Linux und Unix, SYS.1.2.2 Windows Server 2012 bzw. SYS.1.6 Container). Zusätzlich sind die Maßnahmen aus CON.3 Datensicherungskonzept, sowie OPS.1.1.3.A15 Regelmäßige Aktualisierung von IT-Systemen und Software zu beachten.</p>
+
+        <h3>Gefährdungslage</h3>
+        <h4>Remote Code Execution</h4>
+        <p>Ein Angreifer kann mit der Consul Exec-Funktion beliebige Befehle im Cluster ausführen, falls diese im default deaktivierte Funktionalität aktiviert, aber der Zugriff nicht mit ACLs abgesichert ist.</p>
+        <h4>Unautorisierter Zugriff auf Daten</h4>
+        <p>Alle Anfragen müssen authentifiziert und autorisiert sein, um unautorisierten Zugriff auf Daten zu verhindern. Dies erfordert, dass ACLs im Cluster mit einem default deny aktiviert sind.
+            Des Weiteren kann ein Angreifer mit Zugriffsrechten auf Daten- oder Konfigurationsverzeichnisse Zugriff auf sensible Daten oder Tokens erhalten.</p>
+        <h4>Abhören von Agent-zu-Agent, Agent-zu-CA oder Service-zu-Service Kommunikation</h4>
+        <p>Ist die Kommunikation zwischen den Agents, Services oder dem Consul-Server und dem konfigurierten Zertifizierungsstellenanbieter für Connect nicht verschlüsselt, kann die Übertragung abgehört werden.        </p>
+
+        <h3>Anforderungen</h3>
+        <h4>Basis-Anforderungen</h4>
+        <h5>APP.bd.4.A1 Sensible Daten in Konfigurationen</h5>
+        <p>Beim Einsatz von zentralen Konfigurationen DÜRFEN KEINE sensible Daten wie Zugangsdaten im Klartext abgelegt sein.</p>
+        <h5>APP.bd.4.A2 Hochverfügbarkeit</h5>
+        <p>Da es sich um eine zentrale Komponente handelt, MUSS der Betrieb hochverfügbar ausgelegt werden (Cluster). Bei Virtualisierung SOLLTE darauf geachtet werden, dass die virtuellen Maschinen auf unterschiedlichen Hosts betrieben werden. Bei Verwendung von Container-Technologien SOLLTEN geeignete restart-on-failure Mechanismen konfiguriert sein. </p>
+        <h5>APP.bd.4.A3 Root Rechte des Agents</h5>
+        <p>Der Consul Agents MUSS NICHT mit Root Rechten laufen, sondern benötigt lediglich Zugriff auf ein Datenverzeichnis.        </p>
+
+        <h4>Standard-Anforderungen</h4>
+        <h5>APP.bd.4.A4 Verwendung von TLS </h5>
+        <p>Die Kommunikation zwischen Agents und dem Server SOLLTE verschlüsselt erfolgen. Dabei SOLLTE eine eigene CA verwendet werden.        </p>
+        <h5>APP.bd.4.A5 Zugriffsbeschränkung durch ACLs        </h5>
+        <p>Es SOLLTEN ACLs (Access Control Lists) konfiguriert werden, um eine unautorisierte Nutzung der UI oder API zu unterbinden.        </p>
+        <h5>APP.bd.4.A6 Überwachung der Komponenten        </h5>
+        <p>Die Komponenten SOLLTEN geeignet überwacht werden. Dazu zählt die Einbindung in zentrale Monitoring- und Log-Management-Dienste. Es SOLLTE dabei vor allem die Verfügbarkeit, die Ressourcenauslastung und Fehlerzustände überwacht und erkannt werden.</p>
+        <h5>APP.bd.4.A7 Versionsverwaltung für Konfigurationen        </h5>
+        <p>Notwendige Konfigurationen SOLLTEN nicht manuell erfolgen, sondern mit Hilfe von Konfigurationsdateien. Diese Konfigurationsdateien SOLLTEN an einer zentralen Stelle verfügbar sein sowie in die Versionsverwaltung und die Datensicherung eingebunden werden.</p>
+        <h5>APP.bd.4.A8 Gossip Encryption        </h5>
+        <p>Die verschlüsselte Gossip Kommunikation SOLLTE NICHT deaktiviert werden. Die notwendigen Schlüssel SOLLTEN regelmäßig rotiert werden.        </p>
+        <h5>APP.bd.4.A9 Script Checks deaktivieren        </h5>
+        <p>Ist die HTTP-API der Consul Agents aktiviert, SOLLTEN Script Checks deaktiviert sein, um eine Remote Code Ausführung zu verhindern.        </p>
+        <h5>APP.bd.4.A10 Remote Execution deaktivieren        </h5>
+        <p>Die Möglichkeit der Ausführung von Remote Code über Consul exec SOLLTE deaktiviert bleiben.         </p>
+        <h5>APP.bd.4.A11 Rotieren von Credentials        </h5>
+        <p>Es SOLLTEN kurzlebige und regelmäßig rotierende Credentials verwendet werden für ACL Tokens, Zertifikate und Gossip Keys.           </p>
+        <h5>APP.bd.4.A12 Cipher Suites        </h5>
+        <p>Es SOLLTEN die aktuell empfohlenen Cipher Suites konfiguriert werden. Für TLS 1.3 gelten aktuell alle hinterlegten Cipher Suites als sicher und müssen daher nicht explizit konfiguriert werden.        </p>
+        <h5>APP.bd.4.A13 HTTP Response Header        </h5>
+        <p>Es SOLLTEN zusätzliche Security Header für HTTP API Antworten konfiguriert werden wie z.B. X-XSS-Protection.        </p>
+        <h5>APP.bd.4.A14 Geeignete Verbindungs-Limits        </h5>
+        <p>Es SOLLTEN für die entsprechende Umgebung geeignete Verbindungs-Limits konfiguriert werden, wie z.B. gleichzeitige Zugriffe des selben Clients, Timeouts oder maximale Verbindungen.        </p>
+        <h5>APP.bd.4.A15 Service-zu-Service Regeln        </h5>
+        <p>Die Kommunikation von Services unter Connect SOLLTEN per Intentions eingeschränkt werden auf zugelassene Kommunikationsbeziehungen.        </p>
+        <h5>APP.bd.4.A16 Automatisiertes Ausrollen / Wiederrufen der Konfiguration        </h5>
+        <p>Die Konfiguration SOLLTE möglichst automatisiert in das laufende Cluster übertragen werden, um wiederholbare Prozesse zu etablieren und menschliche Fehler zu reduzieren.        </p>
+        <h5>APP.bd.4.A17 Infrastrukturkomponenten verwenden eigene Zugänge mit eigenen Zugriffsrechten        </h5>
+        <p>Für Infrastruktur-Komponenten (z.B. TLS-Proxies oder Anwendungsverteiler (application scheduler)) SOLLTEN dezidierte Zugänge verwendet und explizite Zugriffsrechte definiert werden        </p>
+
+        <h4>Anforderungen bei erhöhtem Schutzbedarf</h4>
+        <h5>APP.bd.4.A18 Verwendung von mTLS        </h5>
+        <p>Kommunikations-Anfragen an den Consul Agent SOLLTEN authentifiziert und autorisiert werden per mTLS, zusätzlich zum Einsatz von ACLs.        </p>
+        <h5>APP.bd.4.A19 Feingranulare ACL Policies        </h5>
+        <p>Die in dem ACL-System konfigurierten Policies SOLLTEN möglichst feingranular sein, um das Prinzip von least privileged zu unterstützen.        </p>
+        <h5>APP.bd.4.A20 Aktives Wiederrufen von Zugriffsrechten        </h5>
+        <p>Die Zugriffsrechte für menschliche Nutzer in Consul SOLLTEN aktiv widerrufen werden, sobald sich der Nutzer nicht mehr authentifiziert ist oder deaktiviert wurde.        </p>
+
+        <figure>
+            <img src="/dist/img/blog/kreuzreferenztabelle_consul.PNG" alt="Trulli" style="width:100%">
+            <figcaption>Kreuzreferenztabelle zu elementaren Gefährdungen</figcaption>
+        </figure>
+
+
+        <p>Bild von <a href="https://pixabay.com/de/users/jmexclusives-10518280/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6090245">Joseph Mucira</a> auf <a href="https://pixabay.com/de/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6090245">Pixabay</a></p>
+
+        <p></br></br></p>
+        <p><a href="../blog.html">Zurück zum Blog</a></p>
+        </article>
+{% endblock %}
+
