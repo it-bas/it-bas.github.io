@@ -1,0 +1,116 @@
+{% extends "basic-layout.njk" %}
+
+{% block content %}
+    <article class="artikel">
+        <p class="datum">21.06.2021</p>
+        <h1>IT-Grundschutz Baustein für Traefik</h1>
+
+        <img src="/dist/img/blog/network.jpg"/>
+
+        <h2>BSI IT-Grundschutz Baustein Entwurf </h2>
+        <p>Wir im Bundesamt für Soziale Sicherung haben in den vergangenen 3,5 Jahren unsere gesamte Anwendungslandschaft von klassischen VMs und 
+            Application Servern mit mehreren Applikationen hin zu einer dynamischen verteilten Infrastruktur auf Basis von Container-Technologien entwickelt.</p>
+        <p>Einer der Bausteine dieser inzwischen vollständigen Cloud-Infrastruktur ist Traefik, ein Reverse-Proxy und Load-Balancer. Für dieses Werkzeug ist dieser Baustein Entwurf,
+        der gerne kommentiert werden kann. Eure Anregungen schickt ihr bitte an devSupport@bas.bund.de! </p>
+
+        <h2>“Service-Proxy Traefik”</h2>
+        <h3>Beschreibung</h3>
+        <h4>Einleitung</h4>
+        <p>Ein Service-Proxy (oder häufig auch Edge Router genannt) kombiniert Funktionalitäten eines Reverse-Proxys und Load-Balancers. Ein Reverse-Proxy kann die Topologie und die Charakteristik des internen Netzes verschleiern, in dem er die direkte Verbindung mit Backend-Servern verhindert. Darüber hinaus werden Requests abgefangen und mit zusätzlichen Sicherheitsfeatures versehen. Durch Load-Balancing kann eine Lastverteilung erfolgen, wenn Services im Backend mehrfach zur Verfügung stehen.</p>
+        <p>Herkömmliche Reverse-Proxys erfordern, dass jede Route konfiguriert wird, die Pfade und Subdomänen mit jedem Service verbinden. In einer Umgebung, in der Dienste mehrmals täglich hinzugefügt, entfernt, beendet, aktualisiert oder skaliert werden, wird es mühsam, die Routen auf dem neuesten Stand zu halten. Traefik hört auf diverse Service-Registry bzw. Orchestrator-APIs und generiert sofort die Routen, damit Services mit der Außenwelt verbunden sind – ohne weiteres Eingreifen.</p>
+        <p>Traefik ist nativ kompatibel mit allen wichtigen Cluster-Technologien wie Kubernetes, Docker, Docker Swarm, AWS, Mesos, Marathon usw. und kann mit vielen gleichzeitig umgehen. Es funktioniert darüber hinaus auch für Legacy-Software, die auf Bare Metal ausgeführt wird.</p>
+        <p>Mit Traefik muss keine separate Konfigurationsdatei gepflegt und synchronisiert werden, alles geschieht automatisch in Echtzeit. Es sind keine Neustarts notwendig und es entstehen keine Verbindungsunterbrechungen.</p>
+        <p>Traefik unterstützt mehrere Load-Balancing Algorithmen, Resilience-Pattern (Circuit breakers, retry), Metriken, bietet eine Web-Oberfläche sowie eine REST API.</p>
+
+        <h4>Zielsetzung</h4>
+        <p>Ziel des Bausteins ist der Schutz einer Traefik-Instanz und der Informationen, die durch Traefik bereitgestellt oder verarbeitet werden.</p>
+        <h4>Abgrenzung</h4>
+        <p>In diesem Baustein werden die für einen Service-Proxy spezifischen Gefährdungen und Anforderungen betrachtet. Der Betrieb von Traefik erfordert entweder einen Server oder Container, deren allgemeine Sicherheitsempfehlungen zusätzlich beachtet werden müssen (siehe z.B. SYS.1.3 Server unter Linux und Unix, SYS.1.2.2 Windows Server 2012 bzw. SYS.1.6 Container). Zusätzlich sind die Maßnahmen aus OPS.1.1.3 Patch- und Änderungsmanagement zu beachten. Da es sich bei Traefik um allgemeine Software handelt, gelten auch hier die Gefährdungen aus APP.6 Allgemeine Software.</p>
+
+        <h3>Gefährdungslage</h3>
+        <h4>Denial of Service</h4>
+        <p>Bei einem DDoS-Angriff auf ein Netz kann aufgrund der vielen Netzverbindungen, die verarbeitet werden müssen, der Service-Proxy ausfallen. Das kann dazu führen, dass bestimmte Dienste im Netz nicht mehr verfügbar sind oder das gesamte Netz ausfällt.</p>
+        <h4>Fehlerhafte Konfiguration</h4>
+        <p>Durch fehlerhafte Konfiguration können unbeabsichtigt Sicherheitslücken entstehen, durch die ein Angreifer Zugriff auf sensible Daten erhalten kann.</p>
+        <h4>Abhören der Kommunikation</h4>
+        <p>Ist die Kommunikation nicht verschlüsselt, mit ungültigen Zertifikaten versehen oder sind nur schwache Security Headern konfiguriert, kann die Übertragung abgehört werden.</p>
+
+        <h3>Anforderungen</h3>
+        <h4>Basis-Anforderungen</h4>
+        <h5>APP.bd.5.A1 Planung und Dokumentation des Einsatzes von Traefik</h5>
+        <p>Bevor Traefik eingesetzt wird, MUSS die Institution den Einsatz sorgfältig planen. Dabei MUSS sie mindestens folgende Punkte beachten:
+        <ul>
+        <li>Hinweise zum gewählten Betriebsmodell (Container, Virtuelle Maschine),</li>
+        <li>zu nutzende Funktionen (Provider Anbindung, Auswahl Middleware),</li>
+        <li>Aufbau geeigneter Konfigurations- und Deployment-Mechanismen (Versionsverwaltung, autom. Deployments)</li>
+        <li>Dokumentation des Vorgehens für Backup und Recovery.</li>
+        </ul><br>
+        <p>Die Dokumentation MUSS die vom Hersteller bereitgestellte Dokumentation entsprechend den individuellen Anforderungen der Institution ergänzen, so dass die Planungen von Dritten nachvollzogen werden können. Die Dokumentation MUSS im späteren Betrieb entsprechend vorgenommener Änderungen aktualisiert werden.</p>
+        <h5>APP.bd.5.A2 Erzwingen von https</h5>
+        <p>Alle eingehenden Requests MÜSSEN auf https umgeleitet werden um eine verschlüsselte Kommunikation zu ermöglichen.</p>
+        <h5>APP.bd.5.A3 Verwendung von TLS</h5>
+        <p>Beim Einsatz von TLS bei der Übertragung von Daten MUSS die Version TLS 1.2 in Kombination mit Perfect Forward Secrecy (PFS) oder die Version TLS 1.3 mit PFS eingesetzt werden. Für den korrekten Einsatz sind die Empfehlungen der Technischen Richtlinie TR-02102-2 (Version 2019-01) umzusetzen und einzuhalten. Der Parameter "insecureSkipVerify" SOLLTE auf "false" stehen, so dass nur gültige Zertifikate akzeptiert werden.</p>
+        <h5>APP.bd.5.A4 Management der Zertifikate</h5>
+        <p>Das konfigurierte TLS MUSS mit gültigen Zertifikaten versehen werden. Dabei MUSS auf den regelmäßigen und rechtzeitigen Austausch geachtet werden.</p>
+
+        <h4>Standard-Anforderungen</h4>
+        <h5>APP.bd.5.A5 Versionsverwaltung für Konfigurationen</h5>
+        <p>Notwendige Konfigurationen SOLLTEN nicht manuell erfolgen, sondern mit Hilfe von Konfigurationsdateien. Diese Konfigurationsdateien SOLLTEN an einer zentralen Stelle verfügbar sein sowie in die Versionsverwaltung und die Datensicherung eingebunden werden.</p>
+        <h5>APP.bd.5.A6 Verwendung von Security Headern</h5>
+        <p>Zum Schutz vor Clickjacking, Cross-Site-Scripting und anderen Angriffen SOLLTEN geeignete HTTP-Response-Header gesetzt werden. Dazu SOLLTEN mindestens die folgenden Direktiven verwendet werden: Content-Security-Policy, möglicherweise X-FRAME-OPTIONS, Strict-Transport-Security, X-XSS-Protection, Content-Type, X-Content-Type-Options sowie Cache-Control. Cookies SOLLTEN grundsätzlich mit den Attributen secure und httponly gesetzt werden</p>
+        <h5>APP.bd.5.A7 Verwendung geeigneter Cipher Suites</h5>
+        <p>Es SOLLTEN die aktuell empfohlenen Cipher Suites konfiguriert werden. Für TLS 1.3 gelten aktuell alle hinterlegten Cipher Suites als sicher und müssen daher nicht explizit konfiguriert werden. Siehe dazu auch [TR1].</p>
+        <h5>APP.bd.5.A8 Sichere Anbindung eines Providers</h5>
+        <p>Die Anbindung von Providern zur Service-Discovery SOLLTE sicher erfolgen. Bei der Anbindung eines Docker Daemons SOLLTE dieser nicht per Unix socket gemountet werden. Stattdessen SOLLTE eine geeignete Lösung mit höherer Sicherheit gewählt werden.</p>
+        <h5>APP.bd.5.A9 Absicherung / Deaktivierung des Dashboards und der API</h5>
+        <p>Das Dashboard zur Übersicht der konfigurierten Services, Router und Middleware und die öffentliche API SOLLTEN in Produktivumgebungen mit einer Authentifizierung abgesichert sein oder deaktiviert werden.</p>
+        <h5>APP.bd.5.A10 Verhinderung von Denial-of-Service</h5>
+        <p>Um die Service vor Überlastung z.B. auf Grund gezielter Angriffe zu schützen, SOLLTE ein Rate-Limit beim Load-Balancing, sowie eine Begrenzung der gleichzeitigen Anfragen (InFlightReq) konfiguriert sein.</p>
+        <h5>APP.bd.5.A11 Verwendung von Health-Checks</h5>
+        <p>Um Server automatisch aus der Rotation zu entfernen, SOLLTEN geeignete Health-Checks konfiguriert sein, die in regelmäßigen Abständen prüfen, ob der Server erreichbar ist und nach einem definierten Timeout abbrechen.</p>
+        <h5>APP.bd.5.A12 Überwachung der Komponenten</h5>
+        <p>Die Komponenten SOLLTEN geeignet überwacht werden. Dazu zählt die Einbindung in zentrale Monitoring- und Log-Management-Dienste. Es SOLLTE dabei vor allem die Verfügbarkeit, die Ressourcenauslastung und Fehlerzustände überwacht und erkannt werden.</p>
+        <h5>APP.bd.5.A13 Verwendung von IP-Whitelisting für administrative / kritische Dienste</h5>
+        <p>Werden administrative Dienste hinter dem Service-Proxy betrieben, SOLLTE wenn möglich ein IP-Whitelisting konfiguriert werden und somit nur bestimmte IPs oder IP-Bereiche für die Nutzung bestimmter kritischer Dienste zugelassen werden.</p>
+
+        <h4>Anforderungen bei erhöhtem Schutzbedarf</h4>
+        <h5>APP.bd.5.A14 Hochverfügbarkeit</h5>
+        <p>Da es sich bei Traefik um eine zentrale Komponente handelt, SOLLTE der Betrieb hochverfügbar ausgelegt werden. Bei Virtualisierung SOLLTE darauf geachtet werden, dass die virtuellen Maschinen auf unterschiedlichen Hosts betrieben werden. Bei Verwendung von Container-Technologien SOLLTEN geeignete restart-on-failure Mechanismen konfiguriert sein.</p>
+        <h5>APP.bd.5.A15 Verwendung von Client Authentication mit Mutual TLS (mTLS)</h5>
+        <p>Werden kritische Dienst hinter dem Service-Proxy betrieben, SOLLTE eine Authentifizierung des Clients per Mutual TLS konfiguriert werden.</p>
+
+        <h4>Anlage: Kreuzreferenztabelle zu elementaren Gefährdungen</h4>
+        <p>Die folgenden elementaren Gefährdungen sind für den benutzerdefinierten Baustein APP.bd.5 Service-Proxy Traefik von Bedeutung:</p>
+        <p>G 0.9 Ausfall oder Störung von Kommunikationsnetzen</p>
+        <p>G 0.14 Ausspähen von Informationen (Spionage)</p>
+        <p>G 0.15 Abhören</p>
+        <p>G 0.18 Fehlplanung oder fehlende Anpassung</p>
+        <p>G 0.19 Offenlegung schützenswerter Informationen</p>
+        <p>G 0.20 Informationen oder Produkte aus unzuverlässiger Quelle</p>
+        <p>G 0.21 Manipulation von Hard- oder Software</p>
+        <p>G 0.22 Manipulation von Informationen</p>
+        <p>G 0.23 Unbefugtes Eindringen in IT-Systeme</p>
+        <p>G 0.25 Ausfall von Geräten oder Systemen</p>
+        <p>G 0.27 Ressourcenmangel</p>
+        <p>G 0.28 Software-Schwachstellen oder -Fehler</p>
+        <p>G 0.29 Verstoß gegen Gesetze oder Regelungen</p>
+        <p>G 0.30 Unberechtigte Nutzung oder Administration von Geräten und Systemen</p>
+        <p>G 0.31 Fehlerhafte Nutzung oder Administration von Geräten und Systemen</p>
+        <p>G 0.40 Verhinderung von Diensten (Denial of Service)</p>
+        <p>G 0.45 Datenverlust</p>
+        <p>G 0.46 Integritätsverlust schützenswerter Informationen</p>
+        <p>G 0.47 Schädliche Seiteneffekte IT-gestützter Angriffe</p>
+
+        <figure>
+            <img src="/dist/img/blog/kreuzreferenztabelle_traefik.png" alt="Kreuzreferenztabelle Traefik" style="width:100%">
+            <figcaption>Kreuzreferenztabelle zu elementaren Gefährdungen</figcaption>
+        </figure>
+
+
+        <p>Bild von <a href="https://pixabay.com/de/users/lobostudiohamburg-13838/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=197300">Thomas Ulrich</a> auf <a href="https://pixabay.com/de/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=197300">Pixabay</a></p>
+
+        <p></br></br></p>
+        <p><a href="../blog.html">Zurück zum Blog</a></p>
+        </article>
+{% endblock %}
+
